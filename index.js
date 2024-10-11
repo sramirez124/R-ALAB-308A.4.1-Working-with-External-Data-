@@ -51,14 +51,6 @@ initialLoad();
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
 breedSelect.addEventListener("change", async (evt) => {
-  const id = breedSelect.value;
-  const response = await fetch(`https://api.thecatapi.com/v1/breeds/${id}`);
-  const data = await response.json();
-  Carousel.clear();
-  Carousel.carouselStart(data);
-});
-
-breedSelect.addEventListener("change", async (evt) => {
   carouselStart(breedSelect.value);
 });
 
@@ -76,13 +68,15 @@ async function carouselStart(id) {
   p1.textContent = `Metric Weight: ${information.weight.metric}kg`;
   const p2 = document.createElement("p");
   p2.textContent = `Imperial Weight: ${information.weight.imperial}lb`;
-  
+  const p3 = document.createElement("p");
+  p3.textContent = `Life Span: ${information.life_span}`;
 
   infoDump.textContent = "";
   infoDump.appendChild(h1);
   infoDump.appendChild(h2);
   infoDump.appendChild(p1);
   infoDump.appendChild(p2);
+  infoDump.appendChild(p3);
 }
 
 
