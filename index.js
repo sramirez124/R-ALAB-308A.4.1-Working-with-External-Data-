@@ -31,6 +31,7 @@ async function initialLoad() {
     option.text = breed.name;
     breedSelect.appendChild(option);
   });
+  carouselStart();
 }
 
 initialLoad();
@@ -49,16 +50,40 @@ initialLoad();
  * - Each new selection should clear, re-populate, and restart the Carousel.
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
-
-breedSelect.addEventListener("submit", async (evt) => {
+breedSelect.addEventListener("change", async (evt) => {
   const id = breedSelect.value;
-  const response = await fetch("https://api.thecatapi.com/v1/breeds");
+  const response = await fetch(`https://api.thecatapi.com/v1/breeds/${id}`);
   const data = await response.json();
-  data.forEach((image) => {
-    console.log("Image added");
-    const carouselItem = Carousel.createCarouselItem(image.url, image.description, image.id);
-  });
+  Carousel.clear();
+  Carousel.carouselStart(data);
 });
+
+breedSelect.addEventListener("change", async (evt) => {
+  carouselStart(breedSelect.value);
+});
+
+async function carouselStart(id) {
+  const response = await fetch(`https://api.thecatapi.com/v1/breeds/${id}`);
+  const information = await response.json();
+
+  const h1 = document.createElement("h1");
+  h1.textContent = information.name;
+
+  const h2 = document.createElement("h2");
+  h2.textContent = information.description;
+
+  const p1 = document.createElement("p");
+  p1.textContent = `Metric Weight: ${information.weight.metric}kg`;
+  const p2 = document.createElement("p");
+  p2.textContent = `Imperial Weight: ${information.weight.imperial}lb`;
+  
+
+  infoDump.textContent = "";
+  infoDump.appendChild(h1);
+  infoDump.appendChild(h2);
+  infoDump.appendChild(p1);
+  infoDump.appendChild(p2);
+}
 
 
 
