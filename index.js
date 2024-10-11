@@ -33,6 +33,7 @@ async function initialLoad() {
   });
 }
 
+initialLoad();
 
 /**
  * 2. Create an event handler for breedSelect that does the following:
@@ -48,6 +49,13 @@ async function initialLoad() {
  * - Each new selection should clear, re-populate, and restart the Carousel.
  * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
  */
+
+breedSelect.addEventListener("submit", async (evt) => {
+  evt.preventDefault();
+  const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedSelect.value}&limit=5`);
+  const data = await response.json();
+  const carousel = document.getElementById("myCarousel");
+});
 
 
 
