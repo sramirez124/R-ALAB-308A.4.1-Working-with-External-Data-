@@ -1,4 +1,4 @@
-import * as Carousel from "./Carousel.js";
+import * as Carousel from "Carousel.js";
 import axios from "axios";
 
 // The breed selection input element.
@@ -51,10 +51,13 @@ initialLoad();
  */
 
 breedSelect.addEventListener("submit", async (evt) => {
-  evt.preventDefault();
-  const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedSelect.value}&limit=5`);
+  const id = breedSelect.value;
+  const response = await fetch("https://api.thecatapi.com/v1/breeds");
   const data = await response.json();
-  const carousel = document.getElementById("myCarousel");
+  data.forEach((image) => {
+    console.log("Image added");
+    const carouselItem = Carousel.createCarouselItem(image.url, image.description, image.id);
+  });
 });
 
 
